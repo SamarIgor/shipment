@@ -1,6 +1,7 @@
 package org.app.shipment.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.app.shipment.api_response.ApiResponse;
 import org.app.shipment.dto.shipment.ShipmentRequest;
 import org.app.shipment.dto.shipment.ShipmentResponse;
@@ -76,7 +77,7 @@ public class ShipmentController {
 
     @PostMapping("/shipment")
     public ResponseEntity<ApiResponse<ShipmentResponse>> createShipment(
-            @RequestBody ShipmentRequest shipmentRequest, HttpServletRequest request) {
+            @RequestBody @Valid ShipmentRequest shipmentRequest, HttpServletRequest request) {
 
         ShipmentResponse response = shipmentService.createShipment(shipmentRequest);
 
@@ -93,7 +94,7 @@ public class ShipmentController {
     @PatchMapping("/shipments/{shipmentId}/status")
     public ResponseEntity<ApiResponse<ShipmentResponse>> updateShipmentStatus(
             @PathVariable Long shipmentId, HttpServletRequest request,
-            @RequestBody ShipmentStatusRequest shipmentStatusRequest
+            @RequestBody @Valid ShipmentStatusRequest shipmentStatusRequest
     ) {
         ShipmentResponse response = shipmentService.updateShipmentStatus(shipmentId, shipmentStatusRequest);
 

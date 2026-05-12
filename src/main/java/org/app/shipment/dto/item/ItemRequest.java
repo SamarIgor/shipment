@@ -1,13 +1,23 @@
 package org.app.shipment.dto.item;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
 public class ItemRequest {
 
+    @NotBlank(message = "Item name is required")
+    @Size(min = 2, max = 50)
     private String name;
+
+    @NotBlank(message = "Category is required")
     private String category;
 
+    @Positive(message = "Weight must be positive")
     private float weight;
 
-
+    @NotBlank(message = "SKU is required")
     private String sku;
 
     public ItemRequest(String name, String category, float weight, String sku){

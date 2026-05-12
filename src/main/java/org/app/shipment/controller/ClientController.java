@@ -1,6 +1,7 @@
 package org.app.shipment.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.app.shipment.api_response.ApiResponse;
 import org.app.shipment.dto.client.ClientRequest;
 import org.app.shipment.dto.client.ClientResponse;
@@ -59,7 +60,7 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<ClientResponse>> insertClient(
-            @RequestBody ClientRequest clientRequest, HttpServletRequest request){
+            @RequestBody @Valid ClientRequest clientRequest, HttpServletRequest request){
 
         ClientResponse response = clientService.insertClient(clientRequest);
 
@@ -76,7 +77,7 @@ public class ClientController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ClientResponse>> updateClient(
             @PathVariable Long id, HttpServletRequest request,
-            @RequestBody ClientRequest clientRequest){
+            @RequestBody @Valid ClientRequest clientRequest){
         ClientResponse response = clientService.updateClient(id, clientRequest);
 
         ApiResponse<ClientResponse> apiResponse = new ApiResponse<>(

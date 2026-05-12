@@ -1,6 +1,7 @@
 package org.app.shipment.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.app.shipment.api_response.ApiResponse;
 import org.app.shipment.dto.item.ItemRequest;
 import org.app.shipment.dto.item.ItemResponse;
@@ -59,7 +60,7 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<ItemResponse>> addItem(
-            ItemRequest itemRequest, HttpServletRequest request){
+           @RequestBody @Valid ItemRequest itemRequest, HttpServletRequest request){
 
         ItemResponse response = itemService.insertItem(itemRequest);
 
@@ -75,7 +76,7 @@ public class ItemController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ItemResponse>> updateItem(
-            @PathVariable Long id, @RequestBody ItemRequest itemRequest, HttpServletRequest request){
+            @PathVariable Long id, @RequestBody @Valid ItemRequest itemRequest, HttpServletRequest request){
 
         ItemResponse response = itemService.updateItem(id, itemRequest);
 
