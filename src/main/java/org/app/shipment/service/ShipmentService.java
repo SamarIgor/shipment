@@ -1,17 +1,16 @@
 package org.app.shipment.service;
 
-import org.app.shipment.controller.ItemController;
 import org.app.shipment.dto.shipment.ShipmentRequest;
 import org.app.shipment.dto.shipment.ShipmentResponse;
 import org.app.shipment.dto.shipment.ShipmentStatusRequest;
 import org.app.shipment.dto.shipment_item.ShipmentItemRequest;
 import org.app.shipment.exception.NotFoundException;
 import org.app.shipment.mapper.ShipmentMapper;
-import org.app.shipment.model.Client;
+import org.app.shipment.model.AppUser;
 import org.app.shipment.model.Item;
 import org.app.shipment.model.Shipment;
 import org.app.shipment.model.ShipmentItem;
-import org.app.shipment.repository.ClientRepository;
+import org.app.shipment.repository.AppUserRepository;
 import org.app.shipment.repository.ItemRepository;
 import org.app.shipment.repository.ShipmentRepository;
 import org.slf4j.Logger;
@@ -25,33 +24,33 @@ import org.springframework.stereotype.Service;
 public class ShipmentService {
 
     private final ShipmentRepository shipmentRepository;
-    private final ClientRepository clientRepository;
+    private final AppUserRepository appUserRepository;
     private final ItemRepository itemRepository;
     private static final Logger log =
             LoggerFactory.getLogger(ShipmentService.class);
 
     public ShipmentService(
             ShipmentRepository shipmentRepository,
-            ClientRepository clientRepository,
+            AppUserRepository appUserRepository,
             ItemRepository itemRepository
     ) {
         this.shipmentRepository = shipmentRepository;
-        this.clientRepository = clientRepository;
+        this.appUserRepository = appUserRepository;
         this.itemRepository = itemRepository;
     }
 
     // Adding new Shipment order
     public ShipmentResponse createShipment(ShipmentRequest request) {
 
-        Client client = clientRepository.findById(request.getClientId())
+        AppUser user = appUserRepository.findById(request.getUserId())
                 .orElseThrow(() -> {
-                    log.warn("Cannot find Client by id '{}' in creating the Shipment", request.getClientId());
-                    return new NotFoundException("Client not found");
+                    log.warn("Cannot find User by id '{}' in creating the Shipment", request.getUserId());
+                    return new NotFoundException("User not found");
                 });
 
         Shipment shipment = new Shipment();
 
-        shipment.setClient(client);
+        shipment.setUser(user);
         shipment.setStatus("CREATED");
         shipment.setSendingAddress(request.getSendingAddress());
         shipment.setArrivingAddress(request.getArrivingAddress());
@@ -79,7 +78,7 @@ public class ShipmentService {
         return ShipmentMapper.toResponse(savedShipment);
     }
 
-    // Get Shipment by its Id
+    // Get Shipment by its ID
     public ShipmentResponse getShipmentById(Long shipmentId) {
 
         Shipment shipment = shipmentRepository
@@ -94,32 +93,32 @@ public class ShipmentService {
     }
 
     // Get All Shipments from One Client
-    public Page<ShipmentResponse> getClientShipments(Long clientId, Pageable pageable) {
+    public Page<ShipmentResponse> getUserShipments(Long userId, Pageable pageable) {
 
-        clientRepository.findById(clientId)
+        appUserRepository.findById(userId)
                 .orElseThrow(() -> {
-                    log.warn("Cannot find Client '{}' to show their Shipments", clientId);
+                    log.warn("Cannot find User '{}' to show their Shipments", userId);
                     return new NotFoundException("Client not found");
                 });
 
         Page<ShipmentResponse> responses = shipmentRepository
-                .findByClientId(clientId, pageable)
+                .findByUserId(userId, pageable)
                 .map(ShipmentMapper::toResponse);
 
         log.info("Successfully found '{}' Shipments", responses.getSize());
         return responses;
     }
 
-    // Get specific shipment from Client
-    public ShipmentResponse getClientShipment(Long clientId, Long shipmentId) {
+    // Get specific shipment from User
+    public ShipmentResponse getUserShipment(Long userId, Long shipmentId) {
 
-        Shipment shipment = shipmentRepository.findByIdAndClientId(shipmentId, clientId)
+        Shipment shipment = shipmentRepository.findByIdAndUserId(shipmentId, userId)
                 .orElseThrow(() -> {
-                    log.warn("Cannot find Client '{}' for specific Shipment", clientId);
-                    return new NotFoundException("Shipment not found for client");
+                    log.warn("Cannot find User '{}' for specific Shipment", userId);
+                    return new NotFoundException("Shipment not found for User");
                 });
 
-        log.info("Found Shipment '{}' for Client '{}'", shipmentId, clientId);
+        log.info("Found Shipment '{}' for User '{}'", shipmentId, userId);
         return ShipmentMapper.toResponse(shipment);
     }
 

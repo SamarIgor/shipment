@@ -21,8 +21,8 @@ public class Shipment {
     private List<ShipmentItem> items = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
+    @JoinColumn(name = "user_id")
+    private AppUser user;
 
     public Shipment() {
         this.createdAt = LocalDateTime.now();
@@ -92,11 +92,11 @@ public class Shipment {
         this.items = items;
     }
 
-    public Client getClient() {
-        return client;
+    public AppUser getUser() {
+        return user;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setUser(AppUser user) {
+        this.user = user;
     }
 }

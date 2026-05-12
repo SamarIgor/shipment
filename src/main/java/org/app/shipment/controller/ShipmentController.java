@@ -25,16 +25,16 @@ public class ShipmentController {
         this.shipmentService = shipmentService;
     }
 
-    @GetMapping("/clients/{clientId}/shipments")
-    public ResponseEntity<ApiResponse<Page<ShipmentResponse>>> getClientsShipments(
-            @PathVariable Long clientId, HttpServletRequest request,
+    @GetMapping("/users/{userId}/shipments")
+    public ResponseEntity<ApiResponse<Page<ShipmentResponse>>> getUsersShipments(
+            @PathVariable Long userId, HttpServletRequest request,
             @PageableDefault(size=10,sort = "id") @ParameterObject Pageable pageable
     ){
-        Page<ShipmentResponse> response = shipmentService.getClientShipments(clientId, pageable);
+        Page<ShipmentResponse> response = shipmentService.getUserShipments(userId, pageable);
 
         ApiResponse<Page<ShipmentResponse>> apiResponse = new ApiResponse<>(
                 HttpStatus.OK.value(),
-                "Shipments for client '" + clientId + "' fetched successfully",
+                "Shipments for client '" + userId + "' fetched successfully",
                 request.getRequestURI(),
                 response
         );
@@ -42,16 +42,16 @@ public class ShipmentController {
         return ResponseEntity.status(HttpStatus.OK.value()).body(apiResponse);
     }
 
-    @GetMapping("/clients/{clientId}/shipments/{shipmentId}")
-    public ResponseEntity<ApiResponse<ShipmentResponse>> getClientShipment(
-            @PathVariable Long clientId, @PathVariable Long shipmentId,
+    @GetMapping("/users/{userId}/shipments/{shipmentId}")
+    public ResponseEntity<ApiResponse<ShipmentResponse>> getUserShipment(
+            @PathVariable Long userId, @PathVariable Long shipmentId,
             HttpServletRequest request) {
 
-        ShipmentResponse response = shipmentService.getClientShipment(clientId, shipmentId);
+        ShipmentResponse response = shipmentService.getUserShipment(userId, shipmentId);
 
         ApiResponse<ShipmentResponse> apiResponse = new ApiResponse<>(
                 HttpStatus.OK.value(),
-                "Fetched Shipment '"+shipmentId+"' for client '" + clientId + "'",
+                "Fetched Shipment '"+shipmentId+"' for User '" + userId + "'",
                 request.getRequestURI(),
                 response
         );

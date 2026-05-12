@@ -9,10 +9,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
-    Page<Shipment> findByClientId(Long clientId, Pageable pageable);
+    Page<Shipment> findByUserId(Long userId, Pageable pageable);
 
-    Optional<Shipment> findByIdAndClientId(
+    Optional<Shipment> findByIdAndUserId(
             Long shipmentId,
-            Long clientId
+            Long userId
     );
 }

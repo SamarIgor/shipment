@@ -1,11 +1,11 @@
-package org.app.shipment.dto.client;
+package org.app.shipment.dto.app_user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public class ClientRequest {
+public class AppUserRequest {
 
     @NotBlank(message = "First name is required")
     @Size(min = 2, max = 50)
@@ -21,13 +21,13 @@ public class ClientRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    public ClientRequest(String firstName, String lastName, String email) {
+    public AppUserRequest(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
     }
 
-    public ClientRequest(){}
+    public AppUserRequest(){}
 
     public String getFirstName() {
         return firstName;

@@ -1,15 +1,15 @@
-package org.app.shipment.dto.client;
+package org.app.shipment.dto.app_user;
 
 import java.time.LocalDateTime;
 
-public class ClientResponse {
+public class AppUserResponse {
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
     private LocalDateTime createdAt;
 
-    public ClientResponse(Long id, String firstName, String lastName, String email, LocalDateTime createdAt) {
+    public AppUserResponse(Long id, String firstName, String lastName, String email, LocalDateTime createdAt) {
         this.id = id;
         this.createdAt = createdAt;
         this.email = email;
@@ -17,7 +17,7 @@ public class ClientResponse {
         this.firstName = firstName;
     }
 
-    public ClientResponse(){}
+    public AppUserResponse(){}
 
     public Long getId() {
         return id;

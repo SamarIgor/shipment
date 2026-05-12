@@ -1,15 +1,15 @@
 package org.app.shipment.mapper;
 
-import org.app.shipment.dto.client.ClientRequest;
-import org.app.shipment.dto.client.ClientResponse;
-import org.app.shipment.model.Client;
+import org.app.shipment.dto.app_user.AppUserRequest;
+import org.app.shipment.dto.app_user.AppUserResponse;
+import org.app.shipment.model.AppUser;
 
 import java.time.LocalDateTime;
 
-public class ClientMapper {
+public class AppUserMapper {
 
-    public static Client toEntity(ClientRequest request){
-        Client c = new Client();
+    public static AppUser toEntity(AppUserRequest request){
+        AppUser c = new AppUser();
         c.setEmail(request.getEmail());
         c.setFirstName(request.getFirstName());
         c.setLastName(request.getLastName());
@@ -17,8 +17,8 @@ public class ClientMapper {
         return c;
     }
 
-    public static ClientResponse toResponse(Client c){
-        return new ClientResponse(
+    public static AppUserResponse toResponse(AppUser c){
+        return new AppUserResponse(
                 c.getId(),
                 c.getFirstName(),
                 c.getLastName(),

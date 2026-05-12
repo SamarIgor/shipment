@@ -3,9 +3,9 @@ package org.app.shipment.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.app.shipment.api_response.ApiResponse;
-import org.app.shipment.dto.client.ClientRequest;
-import org.app.shipment.dto.client.ClientResponse;
-import org.app.shipment.service.ClientService;
+import org.app.shipment.dto.app_user.AppUserRequest;
+import org.app.shipment.dto.app_user.AppUserResponse;
+import org.app.shipment.service.AppUserService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,26 +15,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/client")
-public class ClientController {
+@RequestMapping("api/v1/user")
+public class AppUserController {
 
-    public ClientService clientService;
+    public AppUserService appUserService;
 
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
+    public AppUserController(AppUserService appUserService) {
+        this.appUserService = appUserService;
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<ClientResponse>>> getClients(
+    public ResponseEntity<ApiResponse<Page<AppUserResponse>>> getUsers(
             @PageableDefault(size=10,sort = "id")
             @ParameterObject Pageable pageable,
             HttpServletRequest request){
 
-        Page<ClientResponse> response = clientService.getAllClients(pageable);
+        Page<AppUserResponse> response = appUserService.getAllUsers(pageable);
 
-        ApiResponse<Page<ClientResponse>> apiResponse = new ApiResponse<>(
+        ApiResponse<Page<AppUserResponse>> apiResponse = new ApiResponse<>(
                 HttpStatus.OK.value(),
-                "Clients fetched successfully",
+                "Users fetched successfully",
                 request.getRequestURI(),
                 response
         );
@@ -43,14 +43,14 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ClientResponse>> getClientById(
+    public ResponseEntity<ApiResponse<AppUserResponse>> getUserById(
             @PathVariable Long id, HttpServletRequest request){
 
-        ClientResponse response = clientService.getClientById(id);
+        AppUserResponse response = appUserService.getUserById(id);
 
-        ApiResponse<ClientResponse> apiResponse = new ApiResponse<>(
+        ApiResponse<AppUserResponse> apiResponse = new ApiResponse<>(
                 HttpStatus.OK.value(),
-                "Client with id '"+id+"' fetched successfully",
+                "Users with id '"+id+"' fetched successfully",
                 request.getRequestURI(),
                 response
         );
@@ -59,14 +59,14 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<ClientResponse>> insertClient(
-            @RequestBody @Valid ClientRequest clientRequest, HttpServletRequest request){
+    public ResponseEntity<ApiResponse<AppUserResponse>> insertUser(
+            @RequestBody @Valid AppUserRequest userRequest, HttpServletRequest request){
 
-        ClientResponse response = clientService.insertClient(clientRequest);
+        AppUserResponse response = appUserService.insertUser(userRequest);
 
-        ApiResponse<ClientResponse> apiResponse = new ApiResponse<>(
+        ApiResponse<AppUserResponse> apiResponse = new ApiResponse<>(
                 HttpStatus.OK.value(),
-                "Added new client'"+clientRequest.getFirstName()+"'",
+                "Added new user'"+userRequest.getFirstName()+"'",
                 request.getRequestURI(),
                 response
         );
@@ -75,14 +75,14 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<ClientResponse>> updateClient(
+    public ResponseEntity<ApiResponse<AppUserResponse>> updateUser(
             @PathVariable Long id, HttpServletRequest request,
-            @RequestBody @Valid ClientRequest clientRequest){
-        ClientResponse response = clientService.updateClient(id, clientRequest);
+            @RequestBody @Valid AppUserRequest userRequest){
+        AppUserResponse response = appUserService.updateUser(id, userRequest);
 
-        ApiResponse<ClientResponse> apiResponse = new ApiResponse<>(
+        ApiResponse<AppUserResponse> apiResponse = new ApiResponse<>(
                 HttpStatus.OK.value(),
-                "Updated client with id '"+id+"'",
+                "Updated user with id '"+id+"'",
                 request.getRequestURI(),
                 response
         );
@@ -91,13 +91,13 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteClient(
+    public ResponseEntity<ApiResponse<Void>> deleteUser(
             @PathVariable Long id, HttpServletRequest request){
 
-        clientService.deleteClient(id);
+        appUserService.deleteUser(id);
         ApiResponse<Void> apiResponse = new ApiResponse<>(
                 HttpStatus.OK.value(),
-                "Deleted client '"+id+"'",
+                "Deleted user '"+id+"'",
                 request.getRequestURI(),
                 null
         );

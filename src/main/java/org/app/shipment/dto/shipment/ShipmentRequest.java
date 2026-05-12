@@ -7,8 +7,8 @@ import java.util.List;
 
 public class ShipmentRequest {
 
-    @NotNull(message = "Cliend Id is required")
-    private Long clientId;
+    @NotNull(message = "User Id is required")
+    private Long userId;
 
     @NotBlank
     @Size(min = 5, max = 100)
@@ -27,12 +27,12 @@ public class ShipmentRequest {
 
     public ShipmentRequest(){}
 
-    public Long getClientId() {
-        return clientId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public List<ShipmentItemRequest> getItems() {

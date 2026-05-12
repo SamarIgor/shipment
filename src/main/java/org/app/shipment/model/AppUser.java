@@ -7,23 +7,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Client {
+public class AppUser {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
-    private String firstName;
-    private String email;
-    private String lastName;
-    private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "client")
-    private List<Shipment> shipments = new ArrayList<>();
-
-    public Client() {
+    public enum Role {
+        USER,
+        ADMIN
     }
 
-    public Client(String firstName, String lastName, String email) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String firstName;
+
+    private String lastName;
+
+    @Column(unique = true)
+    private String email;
+
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<Shipment> shipments = new ArrayList<>();
+
+    public AppUser() {
+    }
+
+    public AppUser(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
